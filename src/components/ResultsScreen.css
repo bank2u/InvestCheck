@@ -114,7 +114,9 @@
   min-height: 44px;
   background-color: var(--color-primary);
   color: white;
+  border: none;
   border-radius: var(--radius-lg);
+  cursor: pointer;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   transition: all var(--duration-base) var(--easing);

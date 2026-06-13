@@ -66,7 +66,7 @@ export default function ResultsScreen({ profile, score, answers, onRestart }: Pr
       </div>
 
       <button className="projection-button" onClick={() => setShowProjection(true)}>
-        💡 ดูการลงทุนของคุณใน {Math.min(10, 90 - (userAge || 25))} ปี
+        💡 ดูการลงทุนของคุณใน {Math.min(10, 90 - userAge)} ปี
       </button>
 
       <button className="restart-button" onClick={onRestart}>

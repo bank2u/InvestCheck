@@ -1,13 +1,8 @@
+import { Allocation } from '../types';
 import './AllocationChart.css';
 
-interface AllocationItem {
-  name: string;
-  percentage: number;
-  color: string;
-}
-
 interface Props {
-  allocations: AllocationItem[];
+  allocations: Allocation[];
 }
 
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
