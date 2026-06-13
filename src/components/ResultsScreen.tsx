@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RiskProfile, AnswerValue, Answers } from '../types';
 import ProjectionScreen from './ProjectionScreen';
 import AllocationChart from './AllocationChart';
+import { ASSET_DESCRIPTIONS } from '../utils/assetDescriptions';
 import './ResultsScreen.css';
 
 interface Props {
@@ -33,6 +34,10 @@ export default function ResultsScreen({ profile, score, answers, onRestart }: Pr
     profile.allocations.alternative,
   ];
 
+  const nonZeroAllocations = allocations
+    .filter((a) => a.percentage > 0)
+    .sort((a, b) => b.percentage - a.percentage);
+
   return (
     <div className="results-screen">
       <div className="risk-card" style={{ borderLeftColor: profile.color }}>
@@ -44,17 +49,50 @@ export default function ResultsScreen({ profile, score, answers, onRestart }: Pr
         </div>
       </div>
 
-      <div className="allocations-section">
-        <h2 className="section-title">การจัดสรรเงินลงทุน</h2>
-        <AllocationChart allocations={allocations} />
-      </div>
-
       <div className="recommendation-section">
         <h2 className="section-title">คำแนะนำ</h2>
         <p className="recommendation-text">{profile.recommendation}</p>
       </div>
 
-<button className="projection-button" onClick={() => setShowProjection(true)}>
+      <div className="allocations-section">
+        <h2 className="section-title">การจัดสรรเงินลงทุน</h2>
+        <AllocationChart allocations={allocations} />
+      </div>
+
+      <div className="asset-cards-section">
+        <h2 className="section-title">สินทรัพย์ที่เหมาะสม</h2>
+        {nonZeroAllocations.map((asset) => {
+          const desc = ASSET_DESCRIPTIONS[asset.name];
+          return (
+            <div
+              key={asset.name}
+              className="asset-card"
+              style={{ borderLeftColor: asset.color }}
+            >
+              <div className="asset-card-header">
+                <span className="asset-card-name">{asset.name}</span>
+                <span className="asset-card-pct" style={{ color: asset.color }}>
+                  {asset.percentage}%
+                </span>
+              </div>
+              {desc && (
+                <>
+                  <div className="asset-card-row">
+                    <span className="asset-card-label">คือ: </span>
+                    {desc.description}
+                  </div>
+                  <div className="asset-card-row">
+                    <span className="asset-card-label">ได้แก่: </span>
+                    {desc.examples}
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <button className="projection-button" onClick={() => setShowProjection(true)}>
         💡 ดูการลงทุนของคุณใน {Math.min(10, 90 - userAge)} ปี
       </button>
 
