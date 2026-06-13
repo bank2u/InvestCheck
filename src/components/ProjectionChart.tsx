@@ -10,69 +10,105 @@ interface Props {
   riskLevel: RiskLevel;
 }
 
+const W = 360;
+const H = 240;
+const PAD = { top: 16, right: 12, bottom: 36, left: 56 };
+
+function formatK(value: number): string {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
+  if (value >= 1_000) return `${Math.round(value / 1_000)}K`;
+  return String(value);
+}
+
 export default function ProjectionChart({ projections, years, riskLevel }: Props) {
   const investmentReturnPercent = (getReturnRateByLevel(riskLevel) * 100).toFixed(1);
-  const bankReturnPercent = '1.4';
+
+  const { xScale, yScale, maxBalance, gridValues } = useMemo(() => {
+    if (!projections || projections.length === 0) {
+      return { xScale: () => 0, yScale: () => 0, maxBalance: 0, gridValues: [] };
+    }
+
+    const maxBal = Math.max(
+      ...projections.map((p) => Math.max(p.investmentBalance, p.bankBalance))
+    );
+
+    const xRange = W - PAD.left - PAD.right;
+    const yRange = H - PAD.top - PAD.bottom;
+    const maxYear = projections[projections.length - 1].year;
+
+    const xs = (year: number) => PAD.left + (year / maxYear) * xRange;
+    const ys = (balance: number) => H - PAD.bottom - (balance / maxBal) * yRange;
+
+    // Nice round grid values
+    const magnitude = Math.pow(10, Math.floor(Math.log10(maxBal)));
+    const step = Math.ceil(maxBal / magnitude / 4) * magnitude;
+    const grids = [0, 1, 2, 3, 4].map((i) => i * step).filter((v) => v <= maxBal * 1.05);
+
+    return { xScale: xs, yScale: ys, maxBalance: maxBal, gridValues: grids };
+  }, [projections, years]);
+
   if (!projections || projections.length === 0) {
     return <div className="chart-empty">กรุณาใส่จำนวนเงินเพื่อดูการคาดการณ์</div>;
   }
 
-  const chartDimensions = useMemo(() => {
-    const maxBalance = Math.max(
-      ...projections.map((p) => Math.max(p.investmentBalance, p.bankBalance))
-    );
-
-    const padding = { top: 20, right: 20, bottom: 40, left: 60 };
-    const width = 600;
-    const height = 300;
-
-    const xScale = (year: number) => {
-      const xRange = width - padding.left - padding.right;
-      return padding.left + (year / years) * xRange;
-    };
-
-    const yScale = (balance: number) => {
-      const yRange = height - padding.top - padding.bottom;
-      return height - padding.bottom - (balance / maxBalance) * yRange;
-    };
-
-    return { xScale, yScale, maxBalance, padding, width, height };
-  }, [projections, years]);
-
-  const { xScale, yScale, maxBalance, padding, width, height } = chartDimensions;
-
-  const investmentPath = projections
+  const investmentPoints = projections
     .map((p) => `${xScale(p.year)},${yScale(p.investmentBalance)}`)
-    .join(' L ');
+    .join(' ');
 
-  const bankPath = projections
+  const bankPoints = projections
     .map((p) => `${xScale(p.year)},${yScale(p.bankBalance)}`)
-    .join(' L ');
+    .join(' ');
 
-  const yAxisMax = Math.ceil(maxBalance / 100000) * 100000;
+  // X-axis labels: show ~5 evenly spaced labels
+  const xLabels = projections.filter((_, i) => {
+    const total = projections.length;
+    const step = Math.max(1, Math.floor(total / 5));
+    return i % step === 0 || i === total - 1;
+  });
 
   return (
     <div className="projection-chart">
-      <div className="chart-return-rates">
-        <div className="return-rate-item">
-          <span className="return-rate-label">ผลตอบแทนลงทุน:</span>
-          <span className="return-rate-value investment">{investmentReturnPercent}%</span>
+      {/* Return rate badges */}
+      <div className="chart-rates">
+        <div className="rate-badge investment-rate">
+          <span className="rate-number">{investmentReturnPercent}%</span>
+          <span className="rate-desc">ผลตอบแทนลงทุน/ปี</span>
         </div>
-        <div className="return-rate-item">
-          <span className="return-rate-label">ผลตอบแทนเงินฝาก:</span>
-          <span className="return-rate-value bank">{bankReturnPercent}%</span>
+        <div className="rate-badge bank-rate">
+          <span className="rate-number">1.4%</span>
+          <span className="rate-desc">ผลตอบแทนเงินฝาก/ปี</span>
         </div>
       </div>
-      <svg viewBox={`0 0 ${width} ${height}`} className="chart-svg" preserveAspectRatio="xMidYMid meet">
-        {/* Y-axis labels */}
-        {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
-          const value = yAxisMax * ratio;
-          const y = yScale((value / yAxisMax) * maxBalance);
+
+      {/* SVG Chart */}
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        className="chart-svg"
+        role="img"
+        aria-label="กราฟเปรียบเทียบการลงทุน"
+      >
+        {/* Grid lines + Y labels */}
+        {gridValues.map((v, i) => {
+          const y = yScale(v);
           return (
-            <g key={`y-label-${i}`}>
-              <line x1={padding.left - 4} y1={y} x2={padding.left} y2={y} stroke="#ddd" />
-              <text x={padding.left - 8} y={y} textAnchor="end" fontSize="11" fill="#6b7280">
-                {Math.round(value / 1000)}K
+            <g key={`grid-${i}`}>
+              <line
+                x1={PAD.left}
+                y1={y}
+                x2={W - PAD.right}
+                y2={y}
+                stroke={v === 0 ? '#d1d5db' : '#f3f4f6'}
+                strokeWidth={v === 0 ? 1.5 : 1}
+              />
+              <text
+                x={PAD.left - 6}
+                y={y + 4}
+                textAnchor="end"
+                fontSize="14"
+                fill="#9ca3af"
+                fontFamily="inherit"
+              >
+                {formatK(v)}
               </text>
             </g>
           );
@@ -80,85 +116,60 @@ export default function ProjectionChart({ projections, years, riskLevel }: Props
 
         {/* Y-axis line */}
         <line
-          x1={padding.left}
-          y1={padding.top}
-          x2={padding.left}
-          y2={300 - padding.bottom}
-          stroke="#ddd"
+          x1={PAD.left}
+          y1={PAD.top}
+          x2={PAD.left}
+          y2={H - PAD.bottom}
+          stroke="#e5e7eb"
           strokeWidth="1"
         />
 
-        {/* X-axis line */}
-        <line
-          x1={padding.left}
-          y1={height - padding.bottom}
-          x2={width - padding.right}
-          y2={height - padding.bottom}
-          stroke="#ddd"
-          strokeWidth="1"
-        />
-
-        {/* Grid lines */}
-        {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
-          const y = yScale((ratio / 1) * maxBalance);
-          return (
-            <line
-              key={`grid-${i}`}
-              x1={padding.left}
-              y1={y}
-              x2={width - padding.right}
-              y2={y}
-              stroke="#f5f5f5"
-              strokeWidth="1"
-            />
-          );
-        })}
-
-        {/* Investment line */}
+        {/* Bank line (behind) */}
         <polyline
-          points={investmentPath}
-          fill="none"
-          stroke="#10b981"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {/* Bank deposit line */}
-        <polyline
-          points={bankPath}
+          points={bankPoints}
           fill="none"
           stroke="#9ca3af"
-          strokeWidth="2"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray="6 3"
+        />
+
+        {/* Investment line (front) */}
+        <polyline
+          points={investmentPoints}
+          fill="none"
+          stroke="#0066cc"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
 
-        {/* X-axis labels (every 2 years) */}
-        {projections
-          .filter((p) => p.year % 2 === 0)
-          .map((p) => (
-            <text
-              key={`x-label-${p.year}`}
-              x={xScale(p.year)}
-              y={height - padding.bottom + 20}
-              textAnchor="middle"
-              fontSize="11"
-              fill="#6b7280"
-            >
-              {p.year}ปี
-            </text>
-          ))}
+        {/* X-axis labels */}
+        {xLabels.map((p) => (
+          <text
+            key={`x-${p.year}`}
+            x={xScale(p.year)}
+            y={H - PAD.bottom + 20}
+            textAnchor="middle"
+            fontSize="13"
+            fill="#9ca3af"
+            fontFamily="inherit"
+          >
+            {p.year}ปี
+          </text>
+        ))}
       </svg>
 
+      {/* Legend */}
       <div className="chart-legend">
         <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: '#10b981' }} />
+          <span className="legend-line investment-line" />
           <span className="legend-label">ลงทุนตามความเสี่ยง</span>
         </div>
         <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: '#9ca3af' }} />
-          <span className="legend-label">เงินฝากธนาคาร</span>
+          <span className="legend-line bank-line" />
+          <span className="legend-label">เงินฝากธนาคาร 1.4%</span>
         </div>
       </div>
     </div>

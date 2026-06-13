@@ -1,119 +1,114 @@
 .projection-chart {
-  padding: var(--spacing-20) var(--spacing-16);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-16);
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  gap: 16px;
+  padding: 20px 16px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-.chart-empty {
-  padding: var(--spacing-24);
-  text-align: center;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-}
-
-.chart-return-rates {
+/* Return rate badges */
+.chart-rates {
   display: flex;
-  gap: var(--spacing-16);
-  padding: var(--spacing-12) 0;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.return-rate-item {
+.rate-badge {
+  flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-8);
+  padding: 14px 12px;
+  border-radius: 10px;
+  text-align: center;
 }
 
-.return-rate-label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
+.investment-rate {
+  background-color: rgba(0, 102, 204, 0.08);
+  border: 1.5px solid rgba(0, 102, 204, 0.2);
 }
 
-.return-rate-value {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
+.bank-rate {
+  background-color: rgba(156, 163, 175, 0.1);
+  border: 1.5px solid rgba(156, 163, 175, 0.3);
 }
 
-.return-rate-value.investment {
-  color: #10b981;
+.rate-number {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
-.return-rate-value.bank {
+.investment-rate .rate-number {
+  color: #0066cc;
+}
+
+.bank-rate .rate-number {
   color: #6b7280;
 }
 
+.rate-desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* SVG chart */
 .chart-svg {
   width: 100%;
   height: auto;
-  min-height: 250px;
-  max-height: 400px;
-  background-color: white;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
+  display: block;
+  overflow: visible;
 }
 
+/* Legend */
 .chart-legend {
   display: flex;
+  gap: 20px;
   justify-content: center;
-  gap: var(--spacing-20);
-  font-size: var(--font-size-sm);
   flex-wrap: wrap;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-8);
+  gap: 8px;
 }
 
-.legend-color {
-  width: 12px;
-  height: 12px;
+.legend-line {
+  display: block;
+  width: 24px;
+  height: 3px;
   border-radius: 2px;
   flex-shrink: 0;
 }
 
-.legend-label {
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
+.investment-line {
+  background-color: #0066cc;
 }
 
-@media (max-width: 480px) {
-  .projection-chart {
-    padding: var(--spacing-16);
-  }
+.bank-line {
+  background-color: #9ca3af;
+  background-image: repeating-linear-gradient(
+    to right,
+    #9ca3af 0px,
+    #9ca3af 6px,
+    transparent 6px,
+    transparent 9px
+  );
+}
 
-  .chart-return-rates {
-    gap: var(--spacing-12);
-    padding: var(--spacing-8) 0;
-  }
+.legend-label {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
 
-  .return-rate-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-4);
-  }
-
-  .return-rate-label {
-    font-size: var(--font-size-xs);
-  }
-
-  .return-rate-value {
-    font-size: var(--font-size-base);
-  }
-
-  .chart-svg {
-    min-height: 280px;
-    max-height: 350px;
-  }
-
-  .chart-legend {
-    gap: var(--spacing-12);
-  }
+.chart-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 15px;
 }
