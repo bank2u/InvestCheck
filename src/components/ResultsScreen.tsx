@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RiskProfile, AnswerValue, Answers } from '../types';
 import ProjectionScreen from './ProjectionScreen';
+import AllocationChart from './AllocationChart';
 import './ResultsScreen.css';
 
 interface Props {
@@ -45,18 +46,7 @@ export default function ResultsScreen({ profile, score, answers, onRestart }: Pr
 
       <div className="allocations-section">
         <h2 className="section-title">การจัดสรรเงินลงทุน</h2>
-        <div className="allocations-grid">
-          {allocations.map((allocation) => (
-            <div key={allocation.name} className="allocation-box">
-              <div
-                className="allocation-color"
-                style={{ backgroundColor: allocation.color }}
-              />
-              <div className="allocation-name">{allocation.name}</div>
-              <div className="allocation-percentage">{allocation.percentage}%</div>
-            </div>
-          ))}
-        </div>
+        <AllocationChart allocations={allocations} />
       </div>
 
       <div className="recommendation-section">

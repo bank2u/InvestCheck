@@ -61,50 +61,6 @@
   color: var(--color-primary);
 }
 
-.allocations-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-16);
-}
-
-.allocation-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-12);
-  padding: var(--spacing-16);
-  background-color: white;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  text-align: center;
-  transition: all var(--duration-base) var(--easing);
-}
-
-.allocation-box:hover {
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
-  border-color: var(--color-primary);
-}
-
-.allocation-color {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.allocation-name {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
-  line-height: var(--line-height-tight);
-}
-
-.allocation-percentage {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
 .recommendation-section {
   display: flex;
   flex-direction: column;
@@ -217,19 +173,4 @@
     font-size: var(--font-size-xl);
   }
 
-  .allocations-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .allocation-box {
-    flex-direction: row;
-    text-align: left;
-    align-items: flex-start;
-  }
-
-  .allocation-color {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-  }
 }
