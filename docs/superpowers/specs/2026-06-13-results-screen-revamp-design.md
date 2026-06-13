@@ -52,7 +52,7 @@ export const ASSET_DESCRIPTIONS: Record<string, AssetDescription> = {
   },
   'ทางเลือก': {
     description: 'สินทรัพย์นอกเหนือหุ้นและพันธบัตร ช่วยกระจายความเสี่ยงในพอร์ต',
-    examples: 'ทองคำ, กองทุนอสังหาริมทรัพย์ (REITs), สินค้าโภคภัณฑ์',
+    examples: 'ทองคำ, กองทุนอสังหาริมทรัพย์ (REITs), กองทุนน้ำมัน',
   },
 };
 ```
@@ -168,10 +168,27 @@ const nonZeroAllocations = allocations
 
 ---
 
+## Update Allocations Data
+
+Update `src/utils/allocations.ts` to match the official SEC regulatory asset allocation table (ส่วนที่ 3 Basic Asset Allocation). Columns 1–3 from the regulatory table (เงินฝากระยะสั้น + ตราสารหนี้ภาครัฐ + ตราสารหนี้เอกชน) are combined into the existing `debt` bucket. `เงินสด` stays at 0%.
+
+| Level | debt (เงินฝาก & พันธบัตร) | equity (หุ้น) | cash (เงินสด) | alternative (ทางเลือก) |
+|-------|--------------------------|---------------|----------------|------------------------|
+| 1 เสี่ยงต่ำ | 90% | 5% | 0% | 5% |
+| 2 เสี่ยงปานกลางค่อนข้างต่ำ | 70% | 20% | 0% | 10% |
+| 3 เสี่ยงปานกลางค่อนข้างสูง | 60% | 30% | 0% | 10% |
+| 4 เสี่ยงสูง | 40% | 40% | 0% | 20% |
+| 5 เสี่ยงสูงมาก | 15% | 60% | 0% | 25% |
+
+Each row sums to 100%.
+
+---
+
 ## Files Changed
 
 | File | Action |
 |------|--------|
+| `src/utils/allocations.ts` | Modify — update all 5 risk level percentages |
 | `src/utils/assetDescriptions.ts` | Create |
 | `src/types.ts` | Modify — remove `fundRecommendations` from `RiskProfile` |
 | `src/utils/recommendations.ts` | Modify — remove `fundRecommendations` from all 5 entries |
