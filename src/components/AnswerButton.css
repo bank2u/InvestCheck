@@ -1,0 +1,38 @@
+.answer-button {
+  padding: var(--spacing-16) var(--spacing-20);
+  min-height: 44px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  text-align: left;
+  line-height: var(--line-height-normal);
+  transition: all var(--duration-base) var(--easing);
+  word-break: break-word;
+}
+
+.answer-button:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+}
+
+.answer-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.answer-button.selected {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.answer-button.selected:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.answer-button.selected:focus-visible {
+  outline-color: white;
+}

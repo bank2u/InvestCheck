@@ -1,0 +1,20 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.app > :not(:first-child) {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-16) 0;
+}
+
+@media (max-width: 640px) {
+  .app > :not(:first-child) {
+    padding: var(--spacing-12) 0;
+  }
+}

@@ -1,0 +1,123 @@
+.chart-container {
+  padding: var(--spacing-8) 0;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-12);
+}
+
+.chart-option {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  padding: var(--spacing-16);
+  background-color: var(--color-surface);
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: all var(--duration-base) var(--easing);
+  min-height: 140px;
+}
+
+.chart-option:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+}
+
+.chart-option:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chart-option.selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.chart-option.selected:focus-visible {
+  outline-color: white;
+}
+
+.option-header {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: inherit;
+}
+
+.chart-option.selected .option-header {
+  color: white;
+}
+
+.option-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}
+
+.bar-pair {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.bar-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.chart-option.selected .bar-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.bar-bar {
+  height: 24px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--spacing-8);
+  transition: all var(--duration-base) var(--easing);
+  position: relative;
+  min-width: 40px;
+}
+
+.bar-bar.gain-bar {
+  background-color: var(--color-gain);
+}
+
+.bar-bar.loss-bar {
+  background-color: var(--color-loss);
+}
+
+.bar-value {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: white;
+  line-height: 1;
+}
+
+@media (max-width: 480px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-16);
+  }
+
+  .chart-option {
+    min-height: auto;
+    padding: var(--spacing-14) var(--spacing-16);
+  }
+
+  .option-header {
+    font-size: var(--font-size-sm);
+  }
+
+  .bar-bar {
+    height: 28px;
+  }
+}
