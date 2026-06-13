@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: var(--spacing-20);
   width: 100%;
 }
 
@@ -18,31 +18,31 @@
   max-width: 280px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--spacing-12);
 }
 
 .legend-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-12);
 }
 
 .legend-swatch {
-  width: 12px;
-  height: 12px;
+  width: var(--spacing-12);
+  height: var(--spacing-12);
   border-radius: 2px;
   flex-shrink: 0;
 }
 
 .legend-name {
   flex: 1;
-  font-size: 15px;
+  font-size: var(--font-size-base);
   color: var(--color-text);
   font-weight: var(--font-weight-medium);
 }
 
 .legend-pct {
-  font-size: 15px;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
 }

@@ -51,11 +51,14 @@ export default function AllocationChart({ allocations }: Props) {
     .filter((a) => a.percentage > 0)
     .sort((a, b) => b.percentage - a.percentage);
 
+  const total = nonZero.reduce((sum, a) => sum + a.percentage, 0);
+  const scale = total > 0 ? 100 / total : 1;
+
   const cx = 100, cy = 100, outerR = 80, innerR = 50;
   let currentDeg = 0;
 
   const segments = nonZero.map((item) => {
-    const sweep = (item.percentage / 100) * 360;
+    const sweep = ((item.percentage * scale) / 100) * 360;
     const path = describeArc(cx, cy, outerR, innerR, currentDeg, currentDeg + sweep);
     currentDeg += sweep;
     return { ...item, path };
@@ -69,6 +72,7 @@ export default function AllocationChart({ allocations }: Props) {
         role="img"
         aria-label="กราฟการจัดสรรเงินลงทุน"
       >
+        <title>กราฟการจัดสรรเงินลงทุน</title>
         {segments.map((seg) => (
           <path key={seg.name} d={seg.path} fill={seg.color} />
         ))}
