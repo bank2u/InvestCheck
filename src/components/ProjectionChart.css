@@ -1,8 +1,11 @@
 .projection-chart {
-  padding: var(--spacing-16) 0;
+  padding: var(--spacing-20) var(--spacing-16);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-16);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .chart-empty {
@@ -12,18 +15,55 @@
   font-size: var(--font-size-sm);
 }
 
+.chart-return-rates {
+  display: flex;
+  gap: var(--spacing-16);
+  padding: var(--spacing-12) 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.return-rate-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.return-rate-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.return-rate-value {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.return-rate-value.investment {
+  color: #10b981;
+}
+
+.return-rate-value.bank {
+  color: #6b7280;
+}
+
 .chart-svg {
   width: 100%;
   height: auto;
-  max-height: 300px;
-  background-color: transparent;
+  min-height: 250px;
+  max-height: 400px;
+  background-color: white;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
 .chart-legend {
   display: flex;
   justify-content: center;
-  gap: var(--spacing-24);
+  gap: var(--spacing-20);
   font-size: var(--font-size-sm);
+  flex-wrap: wrap;
 }
 
 .legend-item {
@@ -36,15 +76,44 @@
   width: 12px;
   height: 12px;
   border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .legend-label {
   color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 @media (max-width: 480px) {
-  .chart-legend {
+  .projection-chart {
+    padding: var(--spacing-16);
+  }
+
+  .chart-return-rates {
+    gap: var(--spacing-12);
+    padding: var(--spacing-8) 0;
+  }
+
+  .return-rate-item {
     flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+  }
+
+  .return-rate-label {
+    font-size: var(--font-size-xs);
+  }
+
+  .return-rate-value {
+    font-size: var(--font-size-base);
+  }
+
+  .chart-svg {
+    min-height: 280px;
+    max-height: 350px;
+  }
+
+  .chart-legend {
     gap: var(--spacing-12);
   }
 }

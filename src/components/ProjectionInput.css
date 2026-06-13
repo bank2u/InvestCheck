@@ -1,9 +1,11 @@
 .projection-input {
-  padding: var(--spacing-16);
+  padding: var(--spacing-20) var(--spacing-16);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-24);
-  border-bottom: 2px solid var(--color-border);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .input-group {
@@ -115,9 +117,42 @@
   padding: 0 4px;
 }
 
+.currency-input-wrapper {
+  transition: all var(--duration-base) var(--easing);
+}
+
+.currency-input-wrapper:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+@media (max-width: 768px) {
+  .projection-input {
+    padding: var(--spacing-16);
+  }
+}
+
 @media (max-width: 480px) {
   .projection-input {
-    padding: var(--spacing-12);
+    padding: var(--spacing-16);
     gap: var(--spacing-16);
+  }
+
+  .input-label {
+    font-size: var(--font-size-sm);
+  }
+
+  .currency-input {
+    padding: var(--spacing-10) var(--spacing-12);
+    min-height: 40px;
+    font-size: var(--font-size-base);
+  }
+
+  .slider-label {
+    font-size: var(--font-size-sm);
+  }
+
+  .slider-marks {
+    padding: 0 2px;
   }
 }

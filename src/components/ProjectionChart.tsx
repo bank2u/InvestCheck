@@ -1,13 +1,18 @@
 import { useMemo } from 'react';
 import { YearlyProjection } from '../utils/projectionCalculations';
+import { getReturnRateByLevel } from '../utils/getReturnRateByLevel';
+import { RiskLevel } from '../types';
 import './ProjectionChart.css';
 
 interface Props {
   projections: YearlyProjection[];
   years: number;
+  riskLevel: RiskLevel;
 }
 
-export default function ProjectionChart({ projections, years }: Props) {
+export default function ProjectionChart({ projections, years, riskLevel }: Props) {
+  const investmentReturnPercent = (getReturnRateByLevel(riskLevel) * 100).toFixed(1);
+  const bankReturnPercent = '1.4';
   if (!projections || projections.length === 0) {
     return <div className="chart-empty">กรุณาใส่จำนวนเงินเพื่อดูการคาดการณ์</div>;
   }
@@ -48,7 +53,17 @@ export default function ProjectionChart({ projections, years }: Props) {
 
   return (
     <div className="projection-chart">
-      <svg viewBox={`0 0 ${width} ${height}`} className="chart-svg">
+      <div className="chart-return-rates">
+        <div className="return-rate-item">
+          <span className="return-rate-label">ผลตอบแทนลงทุน:</span>
+          <span className="return-rate-value investment">{investmentReturnPercent}%</span>
+        </div>
+        <div className="return-rate-item">
+          <span className="return-rate-label">ผลตอบแทนเงินฝาก:</span>
+          <span className="return-rate-value bank">{bankReturnPercent}%</span>
+        </div>
+      </div>
+      <svg viewBox={`0 0 ${width} ${height}`} className="chart-svg" preserveAspectRatio="xMidYMid meet">
         {/* Y-axis labels */}
         {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
           const value = yAxisMax * ratio;
@@ -136,7 +151,6 @@ export default function ProjectionChart({ projections, years }: Props) {
           ))}
       </svg>
 
-      {/* Legend */}
       <div className="chart-legend">
         <div className="legend-item">
           <span className="legend-color" style={{ backgroundColor: '#10b981' }} />
@@ -144,7 +158,7 @@ export default function ProjectionChart({ projections, years }: Props) {
         </div>
         <div className="legend-item">
           <span className="legend-color" style={{ backgroundColor: '#9ca3af' }} />
-          <span className="legend-label">เงินฝากธนาคาร 1.4%</span>
+          <span className="legend-label">เงินฝากธนาคาร</span>
         </div>
       </div>
     </div>

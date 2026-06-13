@@ -58,7 +58,7 @@ export default function ProjectionScreen({ riskLevel, userAge, onBack }: Props) 
               years={selectedYear}
               riskLevel={riskLevel}
             />
-            <ProjectionChart projections={projections} years={selectedYear} />
+            <ProjectionChart projections={projections} years={selectedYear} riskLevel={riskLevel} />
           </>
         )}
       </div>
