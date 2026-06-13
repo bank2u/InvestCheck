@@ -1,0 +1,123 @@
+.projection-input {
+  padding: var(--spacing-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.input-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.currency-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.currency-symbol {
+  padding: 0 var(--spacing-12);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.currency-input {
+  flex: 1;
+  padding: var(--spacing-12) var(--spacing-12);
+  border: none;
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  outline: none;
+  min-height: 44px;
+}
+
+.currency-input:focus {
+  background-color: rgba(0, 102, 204, 0.03);
+}
+
+.input-error {
+  font-size: var(--font-size-sm);
+  color: #ef4444;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}
+
+.slider-label {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.slider-value {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.year-slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-border);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.year-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--easing);
+}
+
+.year-slider::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.4);
+}
+
+.year-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration-base) var(--easing);
+}
+
+.year-slider::-moz-range-thumb:hover {
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.4);
+}
+
+.slider-marks {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  padding: 0 4px;
+}
+
+@media (max-width: 480px) {
+  .projection-input {
+    padding: var(--spacing-12);
+    gap: var(--spacing-16);
+  }
+}
