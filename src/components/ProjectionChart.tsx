@@ -18,7 +18,7 @@ export default function ProjectionChart({ projections, years }: Props) {
     );
 
     const padding = { top: 20, right: 20, bottom: 40, left: 60 };
-    const width = 100; // percentage
+    const width = 600;
     const height = 300;
 
     const xScale = (year: number) => {
@@ -31,10 +31,10 @@ export default function ProjectionChart({ projections, years }: Props) {
       return height - padding.bottom - (balance / maxBalance) * yRange;
     };
 
-    return { xScale, yScale, maxBalance, padding };
+    return { xScale, yScale, maxBalance, padding, width, height };
   }, [projections, years]);
 
-  const { xScale, yScale, maxBalance, padding } = chartDimensions;
+  const { xScale, yScale, maxBalance, padding, width, height } = chartDimensions;
 
   const investmentPath = projections
     .map((p) => `${xScale(p.year)},${yScale(p.investmentBalance)}`)
@@ -48,7 +48,7 @@ export default function ProjectionChart({ projections, years }: Props) {
 
   return (
     <div className="projection-chart">
-      <svg viewBox={`0 0 ${padding.left + 100 - padding.right} 300`} className="chart-svg">
+      <svg viewBox={`0 0 ${width} ${height}`} className="chart-svg">
         {/* Y-axis labels */}
         {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
           const value = yAxisMax * ratio;
@@ -76,9 +76,9 @@ export default function ProjectionChart({ projections, years }: Props) {
         {/* X-axis line */}
         <line
           x1={padding.left}
-          y1={300 - padding.bottom}
-          x2={100 - padding.right}
-          y2={300 - padding.bottom}
+          y1={height - padding.bottom}
+          x2={width - padding.right}
+          y2={height - padding.bottom}
           stroke="#ddd"
           strokeWidth="1"
         />
@@ -91,7 +91,7 @@ export default function ProjectionChart({ projections, years }: Props) {
               key={`grid-${i}`}
               x1={padding.left}
               y1={y}
-              x2={100 - padding.right}
+              x2={width - padding.right}
               y2={y}
               stroke="#f5f5f5"
               strokeWidth="1"
@@ -126,7 +126,7 @@ export default function ProjectionChart({ projections, years }: Props) {
             <text
               key={`x-label-${p.year}`}
               x={xScale(p.year)}
-              y={300 - padding.bottom + 20}
+              y={height - padding.bottom + 20}
               textAnchor="middle"
               fontSize="11"
               fill="#6b7280"

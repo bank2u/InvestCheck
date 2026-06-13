@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { RiskLevel } from '../types';
 import { useProjectionCalculator } from '../hooks/useProjectionCalculator';
 import { getMaxProjectionYears } from '../utils/getMaxProjectionYears';
@@ -18,9 +18,18 @@ export default function ProjectionScreen({ riskLevel, userAge, onBack }: Props) 
   const maxYear = getMaxProjectionYears(userAge);
   const [monthlyAmount, setMonthlyAmount] = useState(5000);
   const [selectedYear, setSelectedYear] = useState(10);
+  const chartSectionRef = useRef<HTMLDivElement>(null);
 
   const projections = useProjectionCalculator(monthlyAmount, selectedYear, riskLevel);
   const finalProjection = getFinalProjection(projections, selectedYear);
+
+  useEffect(() => {
+    if (monthlyAmount > 0 && chartSectionRef.current) {
+      setTimeout(() => {
+        chartSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [monthlyAmount]);
 
   return (
     <div className="projection-screen">
@@ -40,7 +49,7 @@ export default function ProjectionScreen({ riskLevel, userAge, onBack }: Props) 
         onYearChange={setSelectedYear}
       />
 
-      <div className="chart-section">
+      <div className="chart-section" ref={chartSectionRef}>
         {monthlyAmount > 0 && (
           <>
             <ProjectionSummary
