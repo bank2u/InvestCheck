@@ -74,16 +74,16 @@
   color: var(--color-text);
   margin: 0;
   padding: var(--spacing-16) var(--spacing-20);
-  background: linear-gradient(135deg, rgba(0, 102, 204, 0.05), rgba(240, 138, 74, 0.05));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 5%, transparent), rgba(240, 138, 74, 0.05));
   border-left: 4px solid var(--color-primary);
   border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.08);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
 .projection-button {
   padding: var(--spacing-16) var(--spacing-24);
   min-height: 44px;
-  background-color: rgba(0, 102, 204, 0.1);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   color: var(--color-primary);
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-lg);
