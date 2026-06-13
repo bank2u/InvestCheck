@@ -29,6 +29,5 @@ export interface RiskProfile {
   scoreRange: string;
   allocations: AllocationSet;
   recommendation: string;
-  fundRecommendations: string[];
   color: string;
 }

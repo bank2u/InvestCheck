@@ -54,18 +54,7 @@ export default function ResultsScreen({ profile, score, answers, onRestart }: Pr
         <p className="recommendation-text">{profile.recommendation}</p>
       </div>
 
-      <div className="fund-recommendations-section">
-        <h2 className="section-title">💡 กองทุนที่เหมาะสม</h2>
-        <div className="funds-list">
-          {profile.fundRecommendations.map((fund, idx) => (
-            <div key={idx} className="fund-item">
-              {fund}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <button className="projection-button" onClick={() => setShowProjection(true)}>
+<button className="projection-button" onClick={() => setShowProjection(true)}>
         💡 ดูการลงทุนของคุณใน {Math.min(10, 90 - userAge)} ปี
       </button>
 
