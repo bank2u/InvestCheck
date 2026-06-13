@@ -19,7 +19,6 @@ export interface Allocation {
 export interface AllocationSet {
   debt: Allocation;
   equity: Allocation;
-  cash: Allocation;
   alternative: Allocation;
 }
 

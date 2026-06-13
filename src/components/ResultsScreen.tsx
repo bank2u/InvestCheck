@@ -30,7 +30,6 @@ export default function ResultsScreen({ profile, score, answers, onRestart }: Pr
   const allocations = [
     profile.allocations.debt,
     profile.allocations.equity,
-    profile.allocations.cash,
     profile.allocations.alternative,
   ];
 
