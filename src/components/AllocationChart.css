@@ -1,0 +1,59 @@
+.allocation-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.donut-svg {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  display: block;
+}
+
+.donut-legend {
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legend-name {
+  flex: 1;
+  font-size: 15px;
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+}
+
+.legend-pct {
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+@media (max-width: 480px) {
+  .donut-svg {
+    max-width: 160px;
+  }
+
+  .legend-name,
+  .legend-pct {
+    font-size: 14px;
+  }
+}
