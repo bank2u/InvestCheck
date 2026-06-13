@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-24);
-  padding: var(--spacing-16);
+  padding: var(--spacing-24) var(--spacing-16) var(--spacing-16);
   padding-left: max(var(--spacing-16), env(safe-area-inset-left));
   padding-right: max(var(--spacing-16), env(safe-area-inset-right));
   max-width: 600px;
@@ -27,17 +27,19 @@
 }
 
 .progress-bar {
-  height: 4px;
+  height: 3px;
   background-color: var(--color-surface);
-  border-radius: var(--radius-md);
+  border-radius: 999px;
   overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .progress-fill {
   height: 100%;
-  background-color: var(--color-primary);
-  border-radius: var(--radius-md);
-  transition: width var(--duration-base) var(--easing);
+  background: linear-gradient(90deg, var(--color-primary), #0052a3);
+  border-radius: 999px;
+  transition: width 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
 }
 
 .questions-container {
@@ -54,10 +56,11 @@
 
 .question-text {
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-normal);
+  font-weight: 600;
+  line-height: 1.5;
   color: var(--color-text);
   margin: 0;
+  letter-spacing: -0.2px;
 }
 
 .answers-grid {
@@ -71,13 +74,14 @@
   gap: var(--spacing-12);
   position: sticky;
   bottom: 0;
-  background-color: white;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95)), white;
   padding: var(--spacing-16);
   padding-left: max(var(--spacing-16), env(safe-area-inset-left));
   padding-right: max(var(--spacing-16), env(safe-area-inset-right));
   border-top: 1px solid var(--color-border);
   z-index: 5;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(4px);
 }
 
 .button-bar .btn {
@@ -85,27 +89,67 @@
   padding: var(--spacing-12) var(--spacing-16);
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  letter-spacing: 0.3px;
   height: 44px;
-  transition: all var(--duration-base) var(--easing);
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.button-bar .btn:active {
+  transform: scale(0.98);
+}
+
+.button-bar .btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .button-bar .btn-primary {
   background-color: var(--color-primary);
   color: white;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
+}
+
+.button-bar .btn-primary:hover:not(:disabled) {
+  background-color: #0052a3;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.25);
+}
+
+.button-bar .btn-primary:active:not(:disabled) {
+  background-color: #003d7a;
+  box-shadow: 0 2px 6px rgba(0, 102, 204, 0.2);
 }
 
 .button-bar .btn-primary:disabled {
   background-color: var(--color-surface);
   color: var(--color-text-disabled);
   cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
 }
 
 .button-bar .btn-secondary {
   background-color: var(--color-surface);
   color: var(--color-text);
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.button-bar .btn-secondary:hover {
+  background-color: #fafafa;
+  border-color: #bbb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-bar .btn-secondary:active {
+  background-color: #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 @media (max-width: 480px) {
@@ -113,6 +157,7 @@
     padding: var(--spacing-16);
     padding-left: max(var(--spacing-16), env(safe-area-inset-left));
     padding-right: max(var(--spacing-16), env(safe-area-inset-right));
+    padding-bottom: var(--spacing-24);
   }
 
   .answers-grid {
@@ -125,14 +170,16 @@
   }
 
   .button-bar {
-    gap: var(--spacing-8);
-    padding: var(--spacing-12);
-    padding-left: max(var(--spacing-12), env(safe-area-inset-left));
-    padding-right: max(var(--spacing-12), env(safe-area-inset-right));
+    gap: var(--spacing-10);
+    padding: var(--spacing-12) var(--spacing-16);
+    padding-left: max(var(--spacing-16), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-16), env(safe-area-inset-right));
+    padding-bottom: max(var(--spacing-12), env(safe-area-inset-bottom));
   }
 
   .button-bar .btn {
     padding: var(--spacing-10) var(--spacing-12);
     font-size: var(--font-size-sm);
+    height: 48px;
   }
 }
