@@ -17,33 +17,36 @@ export default function App() {
   const [answers, setAnswers] = useState<Answers>({});
 
   const handleAnswer = (questionId: number, value: AnswerValue) => {
-    const newAnswers = { ...answers, [questionId]: value };
-    setAnswers(newAnswers);
+    setAnswers({ ...answers, [questionId]: value });
+  };
 
-    const currentQuestion = QUESTIONS.find((q) => q.id === questionId)!;
-    const currentScreenQuestions = QUESTIONS.filter((q) => q.screen === currentQuestion.screen);
-
-    // Check if all questions on current screen are answered
+  const handleNext = () => {
+    const currentScreenQuestions = QUESTIONS.filter(
+      (q) => q.screen === currentScreen
+    );
     const allCurrentScreenAnswered = currentScreenQuestions.every(
-      (q) => newAnswers[q.id] !== undefined
+      (q) => answers[q.id] !== undefined
     );
 
     if (allCurrentScreenAnswered) {
-      // Check if there's a next screen
       const nextScreenQuestions = QUESTIONS.filter(
-        (q) => q.screen === currentQuestion.screen + 1
+        (q) => q.screen === currentScreen + 1
       );
 
       if (nextScreenQuestions.length === 0) {
-        // No more screens, all 10 questions answered
-        const score = calculateScore(newAnswers);
+        const score = calculateScore(answers);
         if (score > 0) {
           setAppState('results');
         }
       } else {
-        // Move to next screen
-        setCurrentScreen(currentQuestion.screen + 1);
+        setCurrentScreen(currentScreen + 1);
       }
+    }
+  };
+
+  const handleBack = () => {
+    if (currentScreen > 1) {
+      setCurrentScreen(currentScreen - 1);
     }
   };
 
@@ -77,6 +80,9 @@ export default function App() {
         questions={screenQuestions}
         currentAnswers={answers}
         onAnswer={handleAnswer}
+        onNext={handleNext}
+        onBack={handleBack}
+        canGoBack={currentScreen > 1}
         progressText={progressText}
       />
     </div>

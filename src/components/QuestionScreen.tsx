@@ -7,6 +7,9 @@ interface Props {
   questions: Question[];
   currentAnswers: Record<number, AnswerValue | undefined>;
   onAnswer: (questionId: number, value: AnswerValue) => void;
+  onNext: () => void;
+  onBack?: () => void;
+  canGoBack?: boolean;
   progressText: string;
 }
 
@@ -14,6 +17,9 @@ export default function QuestionScreen({
   questions,
   currentAnswers,
   onAnswer,
+  onNext,
+  onBack,
+  canGoBack,
   progressText,
 }: Props) {
   return (
@@ -59,6 +65,24 @@ export default function QuestionScreen({
             )}
           </div>
         ))}
+      </div>
+
+      <div className="button-bar">
+        {canGoBack && (
+          <button
+            className="btn btn-secondary"
+            onClick={onBack}
+          >
+            ← ย้อนกลับ
+          </button>
+        )}
+        <button
+          className="btn btn-primary"
+          onClick={onNext}
+          disabled={questions.some((q) => currentAnswers[q.id] === undefined)}
+        >
+          ถัดไป
+        </button>
       </div>
     </div>
   );

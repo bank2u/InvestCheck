@@ -3,6 +3,8 @@
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--color-bg);
+  padding-left: max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
 }
 
 .app > :not(:first-child) {
